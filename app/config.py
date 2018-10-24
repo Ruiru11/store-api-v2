@@ -23,7 +23,7 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
-    DEBUG = False
+    DEBUG = os.getenv('ENV')
 
 
 config_by_name = {
