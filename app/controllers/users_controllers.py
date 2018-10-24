@@ -1,5 +1,8 @@
-from flask import jsonify, make_response
+from flask import jsonify, make_response, request
+import datetime
+import jwt
 from app.models.database import Database_connection
+from functools import wraps
 import psycopg2
 from app import bcrypt
 import uuid
@@ -140,3 +143,89 @@ class Users(object):
                     'message': 'Incorrect password!!'
                 }
                 return(make_response(jsonify(response)))
+
+    def generate_token(self, id, username, role):
+        """Generate authentication token."""
+        payload = {
+            'exp': datetime.datetime.now() + datetime.timedelta(seconds=9000),
+            'iat': datetime.datetime.now(),
+            'sub': id,
+            'username': username,
+            'role': role
+        }
+        return jwt.encode(
+            payload,
+            'qwertyuiop',
+            algorithm='HS256'
+        ).decode("utf-8")
+
+    def logged_in(self, func):
+        """The function to check if a user is logged in"""
+        @wraps(func)
+        def decorator(*args, **kwargs):
+            try:
+                token = request.headers.get('Authorization')
+                payload = jwt.decode(token, 'qwertyuiop')
+                user_id = payload['sub']
+                self.connection.cursor.execute(
+                    " SELECT * FROM users WHERE id=%s ", [user_id])
+                user = self.connection.cursor.fetchone()
+                if user:
+                    responseObject = {
+                        'staus': 'sucess',
+                        'message': 'user logged in'
+                    }
+                    new_kwargs = {
+                        'res': responseObject,
+                        'user_id': user[0]
+                    }
+                    kwargs.update(new_kwargs)
+                else:
+                    responseObject = {
+                        'status': 'fail',
+                        'message': 'User not found'
+                    }
+                    return make_response(jsonify(responseObject))
+            except jwt.ExpiredSignatureError:
+                responseObject = {
+                    'status': 'Fail',
+                    'message': 'Wrong Token or expired Token please login'
+                }
+                return make_response(jsonify(responseObject), 401)
+            except jwt.exceptions.DecodeError:
+                responseObject = {
+                    'status': 'Fail',
+                    'message': 'Invalid token type'
+                }
+                return make_response(jsonify(responseObject), 500)
+            return func(*args, **kwargs)
+        return decorator
+
+    def check_admin(self, func):
+        """The function to check if a logged in user is an admin"""
+        @wraps(func)
+        def decorator(*args, **kwargs):
+            try:
+                token = request.headers.get('Authorization')
+                payload = jwt.decode(token, 'qwertyuiop')
+                user_role = payload['role']
+                print("user", user_role)
+                if user_role == 'admin':
+                    new_kwargs = {
+                        'user_role': user_role
+                    }
+                    kwargs.update(new_kwargs)
+                else:
+                    responseObject = {
+                        'status': 'fail',
+                        'message': 'Un-authorized Access only Admin allowed'
+                    }
+                    return make_response(jsonify(responseObject), 401)
+            except jwt.ExpiredSignatureError:
+                responseObject = {
+                    'status': 'Fail',
+                    'message': 'Token expired please login'
+                }
+                return make_response(jsonify(responseObject), 401)
+            return func(*args, **kwargs)
+        return decorator
