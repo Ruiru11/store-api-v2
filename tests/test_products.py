@@ -3,7 +3,7 @@ import json
 from app import create_app, db
 
 
-class MenusTestCase(unittest.TestCase):
+class ProductsTestCase(unittest.TestCase):
     """ TestCase for Menus"""
 
     def setUp(self):

@@ -33,6 +33,14 @@ class UsersTestCase(unittest.TestCase):
         with self.app.app_context():
             db.create_tables()
 
+    def test_create_admin(self):
+        res = self.client().post(
+            "api/v2/signup",
+            data=json.dumps(self.admin_data),
+            headers={"content-type": "application/json"}
+        )
+        self.assertEqual(res.status_code, 201)
+
     def test_admin_login(self):
         res = self.client().post(
             "api/v2/signin",
