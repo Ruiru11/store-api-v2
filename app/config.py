@@ -24,13 +24,12 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     DATABASE_URL = os.getenv('ENV')
-    
 
 
 config_by_name = {
-    "dev": DevelopmentConfig,
-    "test": TestingConfig,
-    "prod": ProductionConfig
+    "development": DevelopmentConfig,
+    "testing": TestingConfig,
+    "production": ProductionConfig
 }
 
 key = Config.SECRET_KEY
