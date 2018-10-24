@@ -99,3 +99,44 @@ class Users(object):
         users = self.connection.cursor.fetchall()
         for user in users:
             return(jsonify(users))
+
+    def signin_user(self, data):
+        """
+        The function logs in a user.
+
+        Parameters:
+            data[email]:email used during signup.
+            data[password]:password used during signup
+
+        Returns:
+            Users:Signs in a user and also generates a token.
+        """
+        self.connection.cursor.execute(
+            " SELECT * FROM users WHERE email=%s ", [data['email']])
+        user = self.connection.cursor.fetchone()
+        if not user:
+            response = {
+                'status': 'fail',
+                'message': 'Email not registered create an account'
+            }
+            return(make_response(jsonify(response)))
+        else:
+            check_hash = bcrypt.check_password_hash(
+                user[2], data['password']
+            )
+            if check_hash is True:
+                user_id = user[0]
+
+                token = self.generate_token(str(user_id), user[2], user[3],)
+                response = {
+                    'status': 'success',
+                    'message': 'Sign in successful',
+                    'token': str(token)
+                }
+                return(make_response(jsonify(response)))
+            else:
+                response = {
+                    'status': 'fail',
+                    'message': 'Incorrect password!!'
+                }
+                return(make_response(jsonify(response)))
