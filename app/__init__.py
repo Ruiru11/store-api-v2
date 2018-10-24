@@ -14,8 +14,6 @@ from app.views.users_views import don_user
 db = Database_connection()
 
 
-
-
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])
