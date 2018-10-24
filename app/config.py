@@ -14,12 +14,12 @@ class DevelopmentConfig(Config):
     DATABASE_URL = 'postgres://postgres@localhost:5432/postgres/'
 
 
-#class TestingConfig(Config):
- #   Postgresql = testing.postgresql.Postgresql()
-  #  DEBUG = True
-   # TESTING = True,
-    #print('>>>>>>>>>>>>>>>>>>', Postgresql.url())
-    #DATABASE_URL = Postgresql.url()
+class TestingConfig(Config):
+    Postgresql = testing.postgresql.Postgresql()
+    DEBUG = True
+    TESTING = True,
+    print('>>>>>>>>>>>>>>>>>>', Postgresql.url())
+    DATABASE_URL = Postgresql.url()
 
 
 class ProductionConfig(Config):
@@ -28,7 +28,7 @@ class ProductionConfig(Config):
 
 config_by_name = {
     "dev": DevelopmentConfig,
-    #"test": TestingConfig,
+    "test": TestingConfig,
     "prod": ProductionConfig
 }
 
