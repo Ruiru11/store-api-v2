@@ -4,7 +4,7 @@ import psycopg2
 import uuid
 
 
-class Products(object):
+class Items(object):
     """This is a class for handling all product activities."""
 
     def __init__(self):

@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask_restful import reqparse
 
 # local import
-from app.controllers.products_controllers import Products
+from app.controllers.products_controllers import Items
 from app.controllers.users_controllers import Users
 
 usr = Users()
@@ -10,7 +10,7 @@ usr = Users()
 
 don_item = Blueprint('products', __name__, url_prefix="/api/v2")
 
-product_instance = Products()
+product_instance = Items()
 
 
 @don_item.route("/products", methods=["POST"])
