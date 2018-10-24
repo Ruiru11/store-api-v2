@@ -23,7 +23,7 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
-    DEBUG = os.getenv('ENV')
+    DATABASE_URL = os.getenv('ENV')
 
 
 config_by_name = {
