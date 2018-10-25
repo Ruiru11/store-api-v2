@@ -59,7 +59,7 @@ def signin_user():
     return user_instance.signin_user(data)
 
 
-@don_user.route('/products/<id>', methods=['PUT'])
+@don_user.route('/user/<id>', methods=['PUT'])
 @usr.logged_in
 @usr.check_admin
 def update_user(id, res=None, user_id=None, user_role=None):
