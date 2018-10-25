@@ -17,7 +17,7 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     DEBUG = True
     TESTING = True
-    DATABASE_URL = " dbname='andela' user='andela21' password='andela21' host='localhost' port='5432' "
+    DATABASE_URL = " dbname='testdb' user='andela21' password='andela21' host='localhost' port='5432' "
 
 
 class ProductionConfig(Config):

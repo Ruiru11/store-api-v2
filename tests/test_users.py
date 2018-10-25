@@ -72,7 +72,7 @@ class UsersTestCase(unittest.TestCase):
     def test_user_signin(self):
         res = self.client().post(
             "api/v2/signin",
-            data=json.dumps(self.signin_data),
+            data=json.dumps(self.user_data),
             headers={"content-type": "application/json"}
         )
         self.assertEqual(res.status_code, 200)
