@@ -229,3 +229,14 @@ class Users(object):
                 return make_response(jsonify(responseObject), 401)
             return func(*args, **kwargs)
         return decorator
+
+    def update_user(self, id):
+        """The function to elevate user status by admin"""
+        self.connection.cursor.execute(
+            "UPDATE users SET role='admin' WHERE id=%s",
+            [id])
+        response_object = {
+            "satus": "pass",
+            "message": "status update complete"
+        }
+        return(make_response(jsonify(response_object)))
