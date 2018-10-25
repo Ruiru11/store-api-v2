@@ -33,6 +33,13 @@ class ProductsTestCase(unittest.TestCase):
         with self.app.app_context():
             db.create_tables()
 
+        res = self.client().post(
+            "api/v2/signin",
+            data=json.dumps(self.admin_data),
+            headers={"content-type": "application/json"}
+        )
+        self.auth_token = json.loads(res.data.decode('utf-8'))['token']
+
     def test_admin_login(self):
         res = self.client().post(
             "api/v2/signin",
@@ -41,18 +48,18 @@ class ProductsTestCase(unittest.TestCase):
         )
         self.assertEqual(res.status_code, 200)
 
-    def get_admin_token(self):
-        res = self.client().post(
-            "api/v2/signin",
-            data=json.dumps(self.admin_data),
-            headers={"content-type": "application/json"}
-        )
-        response = json.loads(res.data.decode('utf-8'))['token']
-        print(">>>>>>>>>>>>>>>>>>**********", response)
-        return response
+    # def get_admin_token(self):
+    #     res = self.client().post(
+    #         "api/v2/signin",
+    #         data=json.dumps(self.admin_data),
+    #         headers={"content-type": "application/json"}
+    #     )
+    #     response = json.loads(res.data.decode('utf-8'))['token']
+    #     print(">>>>>>>>>>>>>>>>>>**********", response)
+    #     return response
 
     def test_admin_create_product(self):
-        token = self.get_admin_token()
+        token = self.auth_token
         res = self.client().post(
             "api/v2/products",
             data=json.dumps(self.prod_data),
@@ -63,7 +70,7 @@ class ProductsTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 201)
 
     def test_create_user(self):
-        token = self.get_admin_token()
+        token = self.auth_token
         res = self.client().post(
             "api/v2/signup",
             data=json.dumps(self.user_data),
@@ -71,7 +78,7 @@ class ProductsTestCase(unittest.TestCase):
                      "Authorization": token
                      }
         )
-        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.status_code, 201)
 
     def test_user_signin(self):
         res = self.client().post(
