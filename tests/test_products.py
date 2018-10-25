@@ -97,7 +97,7 @@ class ProductsTestCase(unittest.TestCase):
         response = json.loads(res.data.decode('utf-8'))['token']
         return response
 
-    def test_normal_user_creating_menu(self):
+    def test_normal_user_creating_product(self):
         token = self.get_user_token()
         res = self.client().post(
             "api/v2/products",
