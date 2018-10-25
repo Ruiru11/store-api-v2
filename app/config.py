@@ -20,11 +20,11 @@ class DevelopmentConfig(Config):
  #  TESTING = True
  #   DATABASE_URL = " dbname='testdb' user='andela21' password='andela21' host='localhost' port='5432' "
 
-class TestingConfig(Config):
-    postgresql = testing.postgresql.Postgresql()
-    DEBUG = True
-    TESTING = True
-    DATABASE_URL = postgresql.url()
+#class TestingConfig(Config):
+ #   postgresql = testing.postgresql.Postgresql()
+  #  DEBUG = True
+  #  TESTING = True
+  #  DATABASE_URL = postgresql.url()
 
 
 
