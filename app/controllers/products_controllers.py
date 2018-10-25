@@ -64,11 +64,23 @@ class Items(object):
         return(make_response(jsonify(item)))
 
     def delete_product(self, id):
+        """The function to delete a product"""
         self.connection.cursor.execute(
             "DELETE FROM products WHERE product_id=%s", [id]
         )
         response_object = {
             "satus": "pass",
             "message": "order deleted"
+        }
+        return(make_response(jsonify(response_object)))
+
+    def update_product(self, id):
+        """The function to modify a product"""
+        self.connection.cursor.execute(
+            "UPDATE products SET category='Household' WHERE product_id=%s",
+            [id])
+        response_object = {
+            "satus": "pass",
+            "message": "status update complete"
         }
         return(make_response(jsonify(response_object)))
