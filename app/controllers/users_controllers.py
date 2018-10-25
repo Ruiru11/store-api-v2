@@ -17,21 +17,9 @@ class Users(object):
 
     def validate_email(self, email):
         """The fuction to validate email"""
-        match = re.match(
-            r'(^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$)',
-            email)
+        match = re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email)
         if match is None:
-            response_object = {
-                "status": "fail",
-                "message": "Please enter a valid email"
-            }
-            return(make_response(jsonify(response_object)), 403)
-        elif len(email) == '':
-            response_object = {
-                "status": "fail",
-                "message": " email cannot be empty"
-            }
-            return(make_response(jsonify(response_object)))
+            return False
         else:
             return True
 
@@ -39,12 +27,11 @@ class Users(object):
         """The function to validate password"""
         match = re.match(r'[a-z]{6,}', password)
         if match is None:
-
             response_object = {
                 "status": "fail",
                 "message": "password format wrong"
             }
-            return(make_response(jsonify(response_object)))
+            return(make_response(jsonify(response_object)),409)
         elif len(password) == '':
             response_object = {
                 "status": "fail",
@@ -88,13 +75,16 @@ class Users(object):
                     "status": "fail",
                     "message": "Email already registered"
                 }
-                return(make_response(jsonify(response_object)))
+                return(make_response(jsonify(response_object)),409)
         elif password is not True:
             return password
         elif email is not True:
-            return email
-        else:
-            return email and password
+            response_object = {
+                "status": "fail",
+                "message": "email format wrong"
+            }
+            return(make_response(jsonify(response_object)), 409)
+       
 
     def all_users(self):
         """The function to ge all users """
@@ -122,7 +112,7 @@ class Users(object):
                 'status': 'fail',
                 'message': 'Email not registered create an account'
             }
-            return(make_response(jsonify(response)))
+            return(make_response(jsonify(response)),404)
         else:
             check_hash = bcrypt.check_password_hash(
                 user[2], data['password']
@@ -142,7 +132,7 @@ class Users(object):
                     'status': 'fail',
                     'message': 'Incorrect password!!'
                 }
-                return(make_response(jsonify(response)))
+                return(make_response(jsonify(response)),409)
 
     def generate_token(self, id, username, role):
         """Generate authentication token."""
@@ -185,13 +175,13 @@ class Users(object):
                         'status': 'fail',
                         'message': 'User not found'
                     }
-                    return make_response(jsonify(responseObject))
+                    return make_response(jsonify(responseObject),404)
             except jwt.ExpiredSignatureError:
                 responseObject = {
                     'status': 'Fail',
                     'message': 'Wrong Token or expired Token please login'
                 }
-                return make_response(jsonify(responseObject), 401)
+                return make_response(jsonify(responseObject), 403)
             except jwt.exceptions.DecodeError:
                 responseObject = {
                     'status': 'Fail',
@@ -220,13 +210,13 @@ class Users(object):
                         'status': 'fail',
                         'message': 'Un-authorized Access only Admin allowed'
                     }
-                    return make_response(jsonify(responseObject), 401)
+                    return make_response(jsonify(responseObject), 403)
             except jwt.ExpiredSignatureError:
                 responseObject = {
                     'status': 'Fail',
                     'message': 'Token expired please login'
                 }
-                return make_response(jsonify(responseObject), 401)
+                return make_response(jsonify(responseObject), 403)
             return func(*args, **kwargs)
         return decorator
 
