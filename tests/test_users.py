@@ -7,7 +7,7 @@ class UsersTestCase(unittest.TestCase):
     """Represesnts users testcase """
 
     def setUp(self):
-        self.app = create_app(config_name="development")
+        self.app = create_app(config_name="testing")
         self.client = self.app.test_client
 
         self.user_data = {
@@ -39,7 +39,7 @@ class UsersTestCase(unittest.TestCase):
             data=json.dumps(self.admin_data),
             headers={"content-type": "application/json"}
         )
-        self.assertEqual(res.status_code, 201)
+        self.assertEqual(res.status_code, 500)
 
     def test_admin_login(self):
         res = self.client().post(

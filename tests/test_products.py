@@ -7,7 +7,7 @@ class ProductsTestCase(unittest.TestCase):
     """ TestCase for Menus"""
 
     def setUp(self):
-        self.app = create_app(config_name="development")
+        self.app = create_app(config_name="testing")
         self.client = self.app.test_client
         self.prod_data = {
             "name": "steel pipes",
@@ -106,7 +106,7 @@ class ProductsTestCase(unittest.TestCase):
                      "Authorization": token
                      }
         )
-        self.assertEqual(res.status_code, 401)
+        self.assertEqual(res.status_code, 403)
 
 
 if __name__ == '__main__':
