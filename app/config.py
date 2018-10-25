@@ -1,5 +1,4 @@
 import os
-import testing.postgresql
 import psycopg2
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -16,11 +15,8 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
-    Postgresql = testing.postgresql.Postgresql()
     DEBUG = True
-    TESTING = True,
-    print('>>>>>>>>>>>>>>>>>>', Postgresql.url())
-    DATABASE_URL = Postgresql.url()
+    TESTING = True
 
 
 class ProductionConfig(Config):

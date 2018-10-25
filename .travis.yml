@@ -7,6 +7,14 @@ install:
   - pip install coveralls
   - pip install pytest-cov
 
+services: 
+  - postgresql
+
+before_scripts:
+  
+  - psql -c "CREATE ROLE ruiru with createdb login PASSWORD 'hardto';" -U postgres
+  - psql -c "CREATE DATABASE testdb owner ruiru" -U postgres
+
 script: 
   -  pytest --cov=tests
 
