@@ -40,7 +40,7 @@ def create_item(res=None, user_role=None, user_id=None):
                         help="name required", location="json")
     parser.add_argument("category", type=str, required=True,
                         help="name required", location="json")
-    parser.add_argument("price", type=str, required=True,
+    parser.add_argument("price", type=int, required=True,
                         help="name required", location="json")
     parser.add_argument("description", type=str, required=True,
                         help="description required", location="json")

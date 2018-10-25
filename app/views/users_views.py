@@ -59,6 +59,13 @@ def signin_user():
     return user_instance.signin_user(data)
 
 
+@don_user.route('/users', methods=['GET'])
+@usr.logged_in
+@usr.check_admin
+def get_user(res=None, user_id=None, user_role=None):
+    return user_instance.get_user()
+
+
 @don_user.route('/user/<id>', methods=['PUT'])
 @usr.logged_in
 @usr.check_admin

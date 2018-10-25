@@ -17,7 +17,8 @@ class Users(object):
 
     def validate_email(self, email):
         """The fuction to validate email"""
-        match = re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email)
+        match = re.match(
+            '^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email)
         if match is None:
             return False
         else:
@@ -29,9 +30,9 @@ class Users(object):
         if match is None:
             response_object = {
                 "status": "fail",
-                "message": "password format wrong"
+                "message": "password too short should be atleast 6 characters"
             }
-            return(make_response(jsonify(response_object)),409)
+            return(make_response(jsonify(response_object)), 409)
         elif len(password) == '':
             response_object = {
                 "status": "fail",
@@ -75,7 +76,7 @@ class Users(object):
                     "status": "fail",
                     "message": "Email already registered"
                 }
-                return(make_response(jsonify(response_object)),409)
+                return(make_response(jsonify(response_object)), 409)
         elif password is not True:
             return password
         elif email is not True:
@@ -84,14 +85,12 @@ class Users(object):
                 "message": "email format wrong"
             }
             return(make_response(jsonify(response_object)), 409)
-       
 
-    def all_users(self):
+    def get_user(self):
         """The function to ge all users """
         self.connection.cursor.execute("""SELECT * FROM users""")
         users = self.connection.cursor.fetchall()
-        for user in users:
-            return(jsonify(users))
+        return(make_response(jsonify(users)))
 
     def signin_user(self, data):
         """
@@ -112,7 +111,7 @@ class Users(object):
                 'status': 'fail',
                 'message': 'Email not registered create an account'
             }
-            return(make_response(jsonify(response)),404)
+            return(make_response(jsonify(response)), 404)
         else:
             check_hash = bcrypt.check_password_hash(
                 user[2], data['password']
@@ -132,7 +131,7 @@ class Users(object):
                     'status': 'fail',
                     'message': 'Incorrect password!!'
                 }
-                return(make_response(jsonify(response)),409)
+                return(make_response(jsonify(response)), 409)
 
     def generate_token(self, id, username, role):
         """Generate authentication token."""
@@ -175,7 +174,7 @@ class Users(object):
                         'status': 'fail',
                         'message': 'User not found'
                     }
-                    return make_response(jsonify(responseObject),404)
+                    return make_response(jsonify(responseObject), 404)
             except jwt.ExpiredSignatureError:
                 responseObject = {
                     'status': 'Fail',
@@ -185,7 +184,7 @@ class Users(object):
             except jwt.exceptions.DecodeError:
                 responseObject = {
                     'status': 'Fail',
-                    'message': 'Invalid token type'
+                    'message': 'Invalid token type or no token provided; please check your token or if none provided provide one '
                 }
                 return make_response(jsonify(responseObject), 500)
             return func(*args, **kwargs)
@@ -227,6 +226,6 @@ class Users(object):
             [id])
         response_object = {
             "satus": "pass",
-            "message": "status update complete"
+            "message": "User elevated to admin"
         }
         return(make_response(jsonify(response_object)))

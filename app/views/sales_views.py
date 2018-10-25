@@ -30,7 +30,7 @@ def create_sale(res=None, user_id=None):
     parser.add_argument('user_id', user_id)
     parser.add_argument("description", action="append", type=str,
                         help="must be given", location="json")
-    parser.add_argument("cost", type=str, required=True,
+    parser.add_argument("cost", type=int, required=True,
                         help="this cannot be empty", location="json")
     data = parser.parse_args()
 
@@ -51,3 +51,11 @@ def get_sales(res=None, user_role=None, user_id=None):
 def get_sale(id, res=None, user_role=None, user_id=None):
     """The function gets a single order using its id"""
     return sale_insatnce.get_sale(id)
+
+
+@don_sale.route("/user-sales/<id>", methods=["GET"])
+@usr.logged_in
+@usr.check_admin
+def get_user_sales(id, res=None, user_role=None, user_id=None):
+    """The function gets a single order using its id"""
+    return sale_insatnce.get_user_sales(id)

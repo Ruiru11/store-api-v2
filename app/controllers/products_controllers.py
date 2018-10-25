@@ -12,25 +12,74 @@ class Items(object):
 
         self.connection = Database_connection()
 
-    def create_item(self, data):
-        try:
-            item_id = str(uuid.uuid4())
-            self.connection.cursor.execute("""INSERT INTO products(product_id, name,category, description, price)
-            VALUES(%s, %s, %s, %s, %s);""",
-                                           (item_id,
-                                            data['name'],
-                                            data['category'],
-                                            data['description'],
-                                            data['price']))
-            print("INSERTING DATA into products")
-            response_object = {
-                "message": "Product created",
-                "status": "pass"
-            }
-            return(make_response(jsonify(response_object)), 201)
+    def validate_name(self, name):
+        """The fuction to validate email"""
+        if len(name) == 0:
+            return False
+        else:
+            return True
 
-        except (Exception, psycopg2.DatabaseError) as error:
-            print("ERROR inserting into products", error)
+    def validate_category(self, category):
+        """The function to validate password"""
+        if category != "Household":
+            return False
+        else:
+            return True
+
+    def validate_price(self, price):
+        """The function to validate price"""
+        if price < 0:
+            return False
+        else:
+            return True
+
+    def create_item(self, data):
+        """The function to create a product"""
+        price = self.validate_price(data['price'])
+        category = self.validate_category(data['category'])
+        name = self.validate_name(data['name'])
+        if price and category and name is True:
+            try:
+                item_id = str(uuid.uuid4())
+                self.connection.cursor.execute("""INSERT INTO products(product_id, name,category, description, price)
+                VALUES(%s, %s, %s, %s, %s);""",
+                                               (item_id,
+                                                data['name'],
+                                                data['category'],
+                                                data['description'],
+                                                data['price']))
+                print("INSERTING DATA into products")
+                response_object = {
+                    "message": "Product created",
+                    "status": "pass"
+                }
+                return(make_response(jsonify(response_object)), 201)
+
+            except (Exception, psycopg2.DatabaseError) as error:
+                print("ERROR inserting into products", error)
+                response_object = {
+                    "status": "fail",
+                    "message": "product already exists"
+                }
+                return(make_response(jsonify(response_object)), 409)
+        elif price is not True:
+            response_object = {
+                "status": "fail",
+                "message": "price cannot be negative"
+            }
+            return(make_response(jsonify(response_object)), 409)
+        elif category is not True:
+            response_object = {
+                "status": "fail",
+                "message": "By default category should be Household"
+            }
+            return(make_response(jsonify(response_object)), 409)
+        elif name is not True:
+            response_object = {
+                "status": "fail",
+                "message": "name cannot be empty"
+            }
+            return(make_response(jsonify(response_object)), 409)
 
     def get_items(self):
         """
@@ -77,7 +126,7 @@ class Items(object):
     def update_product(self, id):
         """The function to modify a product"""
         self.connection.cursor.execute(
-            "UPDATE products SET category='Household' WHERE product_id=%s",
+            "UPDATE products SET category='construction' WHERE product_id=%s",
             [id])
         response_object = {
             "satus": "pass",

@@ -11,7 +11,8 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    DATABASE_URL = " dbname='andela' user='andela21' password='andela21' host='localhost' port='5432' "
+    DATABASE_URL = "dbname='ruiru' user='ruiru' password='ruiru' host='localhost' port='5432'"
+    #DATABASE_URL = " dbname='andela' user='andela21' password='andela21' host='localhost' port='5432' "
     #'postgres:andela:null//postgres@localhost:5432/andela/'
 
 
@@ -33,7 +34,7 @@ class ProductionConfig(Config):
 
 config_by_name = {
     "development": DevelopmentConfig,
-    "testing": TestingConfig,
+    #"testing": TestingConfig,
     "production": ProductionConfig
 }
 
