@@ -11,7 +11,8 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    DATABASE_URL = 'postgres://postgres@localhost:5432/postgres/'
+    DATABASE_URL = " dbname='andela' user='andela21' password='andela21' host='localhost' port='5432' "
+    #'postgres:andela:null//postgres@localhost:5432/andela/'
 
 
 class TestingConfig(Config):
