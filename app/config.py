@@ -22,7 +22,7 @@ class ProductionConfig(Config):
     DATABASE_URL = os.getenv('DATABASE_URL')
 
 
-config_by_name = {
+configuration = {
     "development": DevelopmentConfig,
     "testing": TestingConfig,
     "production": ProductionConfig

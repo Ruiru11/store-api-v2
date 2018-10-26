@@ -7,7 +7,7 @@ class SalesTestCase(unittest.TestCase):
     """ TestCase for Menus"""
 
     def setUp(self):
-        self.app = create_app(config_name="testing")
+        self.app = create_app(environment="testing")
         self.client = self.app.test_client
         self.prod_data = {
             "description": "cement,nails,paint",

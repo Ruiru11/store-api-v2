@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_bcrypt import Bcrypt
-from .config import config_by_name
+from .config import configuration
 
 bcrypt = Bcrypt()
 
@@ -16,7 +16,7 @@ db = Database_connection()
 
 def create_app(environment):
     app = Flask(__name__)
-    app.config.from_object(config_by_name[environment])
+    app.config.from_object(configuration[environment])
     app.register_blueprint(don_item)
     app.register_blueprint(don_user)
     app.register_blueprint(don_sale)
