@@ -47,9 +47,9 @@ pip install -r requirements.txt
 - route:https://njeri.herokuapp.com/api/v2/products
  ## getting a specific product using its id(GET):
 - route:https://njeri.herokuapp.com/api/v2/products/id
- ## deleting an product(use its specific id)(DELETE):
+ ## deleting a product(use its specific id)(DELETE):
 - route:https://njeri.herokuapp.com/api/v2/product/id
- ## updating an product(use its specific id)(PUT):
+ ## updating a product(use its specific id)(PUT):
 - route:https://njeri.herokuapp.com/api/v2/product/id
 ## create a sale order(POST)
 - route: https://njeri.herokuapp.com/api/v2/sales
