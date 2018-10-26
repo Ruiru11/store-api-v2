@@ -1,30 +1,20 @@
 import os
-import psycopg2
-import testing.postgresql
-basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    SECRET_KEY = os.getenv('SECRET_KEY', 'Fhhty%$#*hghghf$Tf')
+    SECRET_KEY = os.getenv('SECRET_KEY', 'jhGJJJhty%$#*hghghf$Tf')
     DEBUG = False
 
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    DATABASE_URL = "dbname='ruiru' user='ruiru' password='ruiru' host='localhost' port='5432'"
-    #DATABASE_URL = " dbname='andela' user='andela21' password='andela21' host='localhost' port='5432' "
-    #'postgres:andela:null//postgres@localhost:5432/andela/'
+    DATABASE_URL = os.getenv('DATABASE_URL')
 
 
-# class TestingConfig(Config):
- #  TESTING = True
- #   DATABASE_URL = " dbname='testdb' user='andela21' password='andela21' host='localhost' port='5432' "
-
-# class TestingConfig(Config):
- #   postgresql = testing.postgresql.Postgresql()
-  #  DEBUG = True
-  #  TESTING = True
-  #  DATABASE_URL = postgresql.url()
+class TestingConfig(Config):
+    DEBUG = True
+    TESTING = True
+    DATABASE_URL = os.getenv('DATABASE_URL')
 
 
 class ProductionConfig(Config):
@@ -34,7 +24,7 @@ class ProductionConfig(Config):
 
 config_by_name = {
     "development": DevelopmentConfig,
-    #"testing": TestingConfig,
+    "testing": TestingConfig,
     "production": ProductionConfig
 }
 

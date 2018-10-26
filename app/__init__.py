@@ -14,9 +14,9 @@ from app.views.sales_views import don_sale
 db = Database_connection()
 
 
-def create_app(config_name):
+def create_app(environment):
     app = Flask(__name__)
-    app.config.from_object(config_by_name[config_name])
+    app.config.from_object(config_by_name[environment])
     app.register_blueprint(don_item)
     app.register_blueprint(don_user)
     app.register_blueprint(don_sale)

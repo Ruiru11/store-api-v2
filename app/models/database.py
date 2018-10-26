@@ -1,12 +1,11 @@
 import psycopg2
 import os
 from app.models.tables import commands
-from app import bcrypt, config
-from app.config import config_by_name
+from app import bcrypt
 import uuid
 
 
-class Database_connection(object):
+class Database_connection():
     def __init__(self):
         try:
             self.connection = psycopg2.connect(os.getenv('DATABASE_URL'))
