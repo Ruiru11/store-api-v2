@@ -5,6 +5,7 @@ info:
   version: '0.1'
 servers:
   - url: 'https://njeri.herokuapp.com'
+  - base: api/v2
 paths:
   /api/v2/signin:
     post:
@@ -227,6 +228,7 @@ paths:
                               "description": "y-12 for slab",
                               "price": "500"
                           }
+
       responses:
         '200':
           description: updates product
@@ -244,7 +246,7 @@ paths:
                   value: |
                     {"message":"status update complete","satus":"pass"}
 
-
+  /api/v2/products/022d2cd0-5e7c-49f2-abee-13705036fe8e:
   delete:
       description: Auto generated using Swagger Inspector
       responses:

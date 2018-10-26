@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect
 from flask_bcrypt import Bcrypt
 from .config import configuration
 
@@ -21,4 +21,8 @@ def create_app(environment):
     app.register_blueprint(don_user)
     app.register_blueprint(don_sale)
     db
+
+    @app.route('/')
+    def root():
+        return redirect("https://njeri.herokuapp.com/apidocs/#/")
     return app
