@@ -1,23 +1,380 @@
-pip openapi: 3.0.0
+openapi: 3.0.1
 info:
-  title: STORE API
-  description: Store Manager is a web application that helps store owners manage sales and product inventory records. This application is meant for use in a single store.
-  version: 2.0.0
-host: localhost:5000
-basePath: api/v2
-schemes:
-  - https
+  title: defaultTitle
+  description: defaultDescription
+  version: '0.1'
+servers:
+  - url: 'https://njeri.herokuapp.com'
 paths:
-  /signup:
-    get:
-      summary: Returns a list of users.
-      description: Optional extended description in CommonMark or HTML.
+  /api/v2/signin:
+    post:
+      description: used to signin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                email:
+                  type: string
+            examples:
+              '0':
+                value: '{"email":"admin@mail.com","password":"adminpassword"}'
+              '1':
+                value: '{"email":"admin@mail.com","password":"adminpassword"}'
       responses:
-        '201':    # status code
-          description: A JSON array of user names
+        '200':
+          description: returns a message together with token
           content:
             application/json:
-              schema: 
-                type: array
-                items: 
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  status:
+                    type: string
+                  token:
+                    type: string
+              examples:
+                '0':
+                  value: >
+                    {"message":"Sign in
+                    successful","status":"success","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDA1Mjg0MjIsImlhdCI6MTU0MDUxOTQyMiwic3ViIjoiODJjYzUwOGItODJhMi00ZjU1LWJiODgtMzhkODc4M2M2MTM1IiwidXNlcm5hbWUiOiIkMmIkMTIkOXpnY2xhelVDWjhoYng0SVBhRUpOZUdCdWRPeWkuMFJTNjhTTVQuTjNWZ0J5UDVlRUx4c2UiLCJyb2xlIjoiYWRtaW4ifQ.yup7-mEqYu655YJUi5L1syN3iUThjXPuNw3bqSUikLg"}
+                '1':
+                  value: >
+                    {"message":"Sign in
+                    successful","status":"success","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDA1Mjg0MzEsImlhdCI6MTU0MDUxOTQzMSwic3ViIjoiODJjYzUwOGItODJhMi00ZjU1LWJiODgtMzhkODc4M2M2MTM1IiwidXNlcm5hbWUiOiIkMmIkMTIkOXpnY2xhelVDWjhoYng0SVBhRUpOZUdCdWRPeWkuMFJTNjhTTVQuTjNWZ0J5UDVlRUx4c2UiLCJyb2xlIjoiYWRtaW4ifQ.5zvyPP9EBUa2F5srJ1lxWA7JGxExVx_TFmvWUgyTsLY"}
+
+  /api/v2/signup:
+    post:
+      description: used to create a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
                   type: string
+                email:
+                  type: string
+            examples:
+              '0':
+                value: '{"email":"bore@mail.com","password":"adminpassword"}'
+      responses:
+        '201':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  status:
+                    type: string
+              examples:
+                '0':
+                  value: |
+                    {"message":"user added succesfuly","status":"pass"}
+  /api/v2/signin:
+    post:
+      description: used to signin a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                email:
+                  type: string
+            examples:
+              '0':
+                value: '{"email":"admin@mail.com","password":"adminpassword"}'
+      responses:
+        '200':
+          description: used to signin
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  status:
+                    type: string
+                  token:
+                    type: string
+              examples:
+                '0':
+                  value: >
+                    {"message":"Sign in
+                    successful","status":"success","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDA1Mjg0MzEsImlhdCI6MTU0MDUxOTQzMSwic3ViIjoiODJjYzUwOGItODJhMi00ZjU1LWJiODgtMzhkODc4M2M2MTM1IiwidXNlcm5hbWUiOiIkMmIkMTIkOXpnY2xhelVDWjhoYng0SVBhRUpOZUdCdWRPeWkuMFJTNjhTTVQuTjNWZ0J5UDVlRUx4c2UiLCJyb2xlIjoiYWRtaW4ifQ.5zvyPP9EBUa2F5srJ1lxWA7JGxExVx_TFmvWUgyTsLY"}
+
+  /api/v2/products:
+    post:
+      description: creates a new product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cost:
+                  type: string
+                price:
+                  type: string
+                name:
+                  type: string
+                description:
+                  type: string
+                category:
+                  type: string
+            examples:
+              '0':
+                value: >-
+                  {"name":"steel","description":"for
+                  beams","cost":"500","category":"Household"}
+              '1':
+                value: |-
+                  {
+                              "name": "steel pipes",
+                              "category": "Household",
+                              "description": "y-16 for columns and slab",
+                              "price": "500"
+                          }
+      responses:
+        '201':
+          description: used to create a new product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  status:
+                    type: string
+              examples:
+                '0':
+                  value: |
+                    {"message":"Product created","status":"pass"}
+        '400':
+          description: creates a new product
+          content:
+            text/html:
+              schema:
+                type: string
+              examples:
+                '0':
+                  value: >
+                    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+                    <title>400 Bad Request</title>
+
+                    <h1>Bad Request</h1>
+
+                    <p>The browser (or proxy) sent a request that this server
+                    could not understand.</p>
+
+  /api/v2/products:
+    get:
+      description: used to get all products
+      responses:
+        '200':
+          description: used to get all products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                '0':
+                  value: >
+                    [["steel pipes","y-16 for columns and
+                    slab",500,"Household","022d2cd0-5e7c-49f2-abee-13705036fe8e"],["steel","y-12
+                    for
+                    slab",500,"Household","6c0118d9-bbe5-4930-9b07-9b7c347ce1d4"]]
+
+  /api/v2/products/022d2cd0-5e7c-49f2-abee-13705036fe8e:
+    put:
+      description: Used to update a product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                price:
+                  type: string
+                name:
+                  type: string
+                description:
+                  type: string
+                category:
+                  type: string
+            examples:
+              '0':
+                value: |-
+                  {
+                              "name": "steel",
+                              "category": "Household",
+                              "description": "y-12 for slab",
+                              "price": "500"
+                          }
+      responses:
+        '200':
+          description: updates product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  satus:
+                    type: string
+                  message:
+                    type: string
+              examples:
+                '0':
+                  value: |
+                    {"message":"status update complete","satus":"pass"}
+
+
+  delete:
+      description: Auto generated using Swagger Inspector
+      responses:
+        '200':
+          description: Used to delete a product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  satus:
+                    type: string
+                  message:
+                    type: string
+              examples:
+                '0':
+                  value: |
+                    {"message":"order deleted","satus":"pass"}
+
+  /api/v2/users/b2a1d4cf-b37f-4bda-a437-33fed989a75d:
+    put:
+      description: Elevates an attendant to admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                email:
+                  type: string
+            examples:
+              '0':
+                value: '{"email":"stl@mail.com","password":"password"}'
+      responses:
+        '404':
+          description: Elevates an attendant to admin
+          content:
+            text/html:
+              schema:
+                type: string
+              examples:
+                '0':
+                  value: '{"message": "User elevated to admin","satus": "pass"}'
+
+  paths:
+  /api/v2/sales:
+    post:
+      description: Used to create a sales record
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cost:
+                  type: string
+                description:
+                  type: string
+            examples:
+              '0':
+                value: '{"cost":"300","description":"cement,nails,mabati"}'
+      responses:
+        '201':
+          description: Returns created sale record
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  satus:
+                    type: string
+                  message:
+                    type: string
+              examples:
+                '0':
+                  value: |
+                    {"message":"sale  created succesfully","satus":"pass"}
+
+  paths:
+  /api/v2/sales:
+    get:
+      description: Used to get all sale records available
+      responses:
+        '200':
+          description: Used to get all sale records available
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                '0':
+                  value: >
+                    [["7161a382-971c-42ae-abc0-99546c56afe4","82cc508b-82a2-4f55-bb88-38d8783c6135",300,"{\"cement,nails,mabati\"}"],["3ecce7f2-1cd0-44b1-a51c-e971f8fa145b","82cc508b-82a2-4f55-bb88-38d8783c6135",300,"{\"Redoxide,wood,wiremesh\"}"],["a61421fd-ee52-4103-aa28-f3cead3e1e49","82cc508b-82a2-4f55-bb88-38d8783c6135",300,"{\"nails,paperoll,spade\"}"]]
+                '1':
+                  value: >
+                    [["7161a382-971c-42ae-abc0-99546c56afe4","82cc508b-82a2-4f55-bb88-38d8783c6135",300,"{\"cement,nails,mabati\"}"],["3ecce7f2-1cd0-44b1-a51c-e971f8fa145b","82cc508b-82a2-4f55-bb88-38d8783c6135",300,"{\"Redoxide,wood,wiremesh\"}"],["a61421fd-ee52-4103-aa28-f3cead3e1e49","82cc508b-82a2-4f55-bb88-38d8783c6135",300,"{\"nails,paperoll,spade\"}"]]
+        default:
+          description: Auto generated using Swagger Inspector
+
+  /api/v2/sales/3ecce7f2-1cd0-44b1-a51c-e971f8fa145b:
+    get:
+      description: Used to get a specific sale record
+      responses:
+        '200':
+          description: Used to get a specific sale record
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                '0':
+                  value: >
+                    ["3ecce7f2-1cd0-44b1-a51c-e971f8fa145b","82cc508b-82a2-4f55-bb88-38d8783c6135",300,"{\"Redoxide,wood,wiremesh\"}"]
+
+  /api/v2/user-sales/82cc508b-82a2-4f55-bb88-38d8783c6135:
+    get:
+      description: Used to get a users sales record
+      responses:
+        '200':
+          description: Used to get a users sales record
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                '0':
+                  value: >
+                    [["7161a382-971c-42ae-abc0-99546c56afe4","82cc508b-82a2-4f55-bb88-38d8783c6135",300,"{\"cement,nails,mabati\"}"],["3ecce7f2-1cd0-44b1-a51c-e971f8fa145b","82cc508b-82a2-4f55-bb88-38d8783c6135",300,"{\"Redoxide,wood,wiremesh\"}"],["a61421fd-ee52-4103-aa28-f3cead3e1e49","82cc508b-82a2-4f55-bb88-38d8783c6135",300,"{\"nails,paperoll,spade\"}"]]
