@@ -41,11 +41,8 @@ pip install -r requirements.txt
  ## creating an product(POST):
 - route:https://njeri.herokuapp.com/api/v2/products
 . payload
- ```{ "name":"paint",
- 	  "price":"500",
- 	  "description":"oil-paint",
- 	  "category":"Household"
-	}```
+ ```{ "name":"paint","price":"500","description":"oil-paint","category":"Household"}```
+
  ## getting all products(GET):
 - route:https://njeri.herokuapp.com/api/v2/products
  ## getting a specific product using its id(GET):
