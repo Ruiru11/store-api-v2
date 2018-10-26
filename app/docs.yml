@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: defaultTitle
-  description: defaultDescription
+  title: STORE API V2
+  description:Store Manager is a web application that helps store owners manage sales and product inventory records. This application is meant for use in a single store.
   version: '0.1'
 servers:
   - url: 'https://njeri.herokuapp.com'
