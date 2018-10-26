@@ -16,20 +16,20 @@ class DevelopmentConfig(Config):
     #'postgres:andela:null//postgres@localhost:5432/andela/'
 
 
-#class TestingConfig(Config):
+# class TestingConfig(Config):
  #  TESTING = True
  #   DATABASE_URL = " dbname='testdb' user='andela21' password='andela21' host='localhost' port='5432' "
 
-#class TestingConfig(Config):
+# class TestingConfig(Config):
  #   postgresql = testing.postgresql.Postgresql()
   #  DEBUG = True
   #  TESTING = True
   #  DATABASE_URL = postgresql.url()
 
 
-
 class ProductionConfig(Config):
-    DATABASE_URL = os.getenv('ENV')
+    DEBUG = False
+    DATABASE_URL = os.getenv('DATABASE_URL')
 
 
 config_by_name = {

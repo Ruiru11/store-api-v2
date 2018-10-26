@@ -9,10 +9,7 @@ import uuid
 class Database_connection(object):
     def __init__(self):
         try:
-            config_name = os.getenv('ENV')
-            database_url = config_by_name[config_name].DATABASE_URL
-            print('>>>>>>', database_url)
-            self.connection = psycopg2.connect(database_url)
+            self.connection = psycopg2.connect(os.getenv('DATABASE_URL'))
             self.connection.autocommit = True
             self.cursor = self.connection.cursor()
         except (Exception, psycopg2.DatabaseError) as error:
