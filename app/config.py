@@ -10,7 +10,6 @@ class DevelopmentConfig(Config):
     DEBUG = True
     DATABASE_URL = os.getenv('DATABASE_URL')
 
-
 class TestingConfig(Config):
     DEBUG = True
     TESTING = True
@@ -29,3 +28,4 @@ configuration = {
 }
 
 key = Config.SECRET_KEY
+ 
