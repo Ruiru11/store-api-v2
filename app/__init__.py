@@ -1,4 +1,4 @@
-from flask import Flask, redirect
+from flask import Flask, redirect, make_response, jsonify
 from flask_bcrypt import Bcrypt
 from .config import configuration
 
@@ -21,6 +21,14 @@ def create_app(environment):
     app.register_blueprint(don_user)
     app.register_blueprint(don_sale)
     db
+
+    @app.errorhandler(404)
+    def not_found(e):
+        response_object = {
+            "message": "The requested url is not available please check the url and try again",
+            "status": "fail"
+        }
+        return(make_response(jsonify(response_object)), 404)
 
     @app.route('/')
     def root():

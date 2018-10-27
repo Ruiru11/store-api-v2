@@ -65,12 +65,12 @@ def get_item(id, res=None, user_id=None):
 @don_item.route('/products/<id>', methods=['DELETE'])
 @usr.logged_in
 @usr.check_admin
-def delete_order(id, res=None, user_id=None, user_role=None):
+def delete_product(id, res=None, user_id=None, user_role=None):
     return product_instance.delete_product(id)
 
 
 @don_item.route('/products/<id>', methods=['PUT'])
 @usr.logged_in
 @usr.check_admin
-def update_order(id, res=None, user_id=None, user_role=None):
+def update_product(id, res=None, user_id=None, user_role=None):
     return product_instance.update_product(id)

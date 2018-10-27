@@ -109,19 +109,39 @@ class Items(object):
         self.connection.cursor.execute(
             "SELECT * FROM  products WHERE product_id=%s", [id]
         )
-        item = self.connection.cursor.fetchone()
-        return(make_response(jsonify(item)))
+        res = self.connection.cursor.fetchone()
+        if not res:
+            response_object = {
+                "message": "No product with that id exists",
+                "status": "Fail"
+            }
+            return(make_response(jsonify(response_object)), 404)
+        else:
+            self.connection.cursor.execute(
+                "SELECT * FROM  products WHERE product_id=%s", [id])
+            response = self.connection.cursor.fetchone()
+            return(make_response(jsonify(response)))
 
     def delete_product(self, id):
         """The function to delete a product"""
         self.connection.cursor.execute(
-            "DELETE FROM products WHERE product_id=%s", [id]
+            "SELECT * FROM  products WHERE product_id=%s", [id]
         )
-        response_object = {
-            "satus": "pass",
-            "message": "order deleted"
-        }
-        return(make_response(jsonify(response_object)))
+        res = self.connection.cursor.fetchone()
+        if not res:
+            response_object = {
+                "message": "Product doesnot exist, can't delete ",
+                "status": "Fail"
+            }
+            return(make_response(jsonify(response_object)), 404)
+        else:
+            self.connection.cursor.execute(
+                "DELETE FROM products WHERE product_id=%s", [id])
+            response_object = {
+                "message": "product deleted",
+                "status": "pass"
+            }
+            return(make_response(jsonify(response_object)))
 
     def update_product(self, id):
         """The function to modify a product"""

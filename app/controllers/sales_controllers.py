@@ -98,8 +98,18 @@ class Sales(object):
         """
         self.connection.cursor.execute(
             " SELECT * FROM sales WHERE sale_id=%s ", [id])
-        response = self.connection.cursor.fetchone()
-        return(make_response(jsonify(response)))
+        res = self.connection.cursor.fetchone()
+        if not res:
+            response_object = {
+                "message": "No sale with that id exists",
+                "status": "fail"
+            }
+            return(make_response(jsonify(response_object)), 404)
+        else:
+            self.connection.cursor.execute(
+                " SELECT * FROM sales WHERE sale_id=%s ", [id])
+            response = self.connection.cursor.fetchone()
+            return(make_response(jsonify(response)))
 
     def get_user_sales(self, id):
         """
