@@ -13,14 +13,14 @@ class Items(object):
         self.connection = Database_connection()
 
     def validate_name(self, name):
-        """The fuction to validate email"""
+        """The fuction to validate name"""
         if len(name) == 0:
             return False
         else:
             return True
 
     def validate_category(self, category):
-        """The function to validate password"""
+        """The function to validate category"""
         if category != "Household":
             return False
         else:
@@ -146,10 +146,21 @@ class Items(object):
     def update_product(self, id):
         """The function to modify a product"""
         self.connection.cursor.execute(
-            "UPDATE products SET category='construction' WHERE product_id=%s",
-            [id])
-        response_object = {
-            "satus": "pass",
-            "message": "status update complete"
-        }
-        return(make_response(jsonify(response_object)))
+            "SELECT * FROM  products WHERE product_id=%s", [id]
+        )
+        res = self.connection.cursor.fetchone()
+        if not res:
+            response_object = {
+                "message": "Product doesnot exist, can't update ",
+                "status": "Fail"
+            }
+            return(make_response(jsonify(response_object)), 404)
+        else:
+            self.connection.cursor.execute(
+                "UPDATE products SET category='construction' WHERE product_id=%s",
+                [id])
+            response_object = {
+                "satus": "pass",
+                "message": "status update complete"
+            }
+            return(make_response(jsonify(response_object)))
