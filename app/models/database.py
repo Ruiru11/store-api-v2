@@ -3,13 +3,16 @@ import os
 from app.models.tables import commands
 from app import bcrypt
 import uuid
+from app.config import configuration
 
 
 class Database_connection():
     def __init__(self):
         try:
-            self.connection = psycopg2.connect(
-                "dbname='ruiru' user='ruiru' password='ruiru' host='localhost' port='5432'")
+            environment = os.getenv('ENV')
+            database_url = configuration[environment].DATABASE_URL
+            print('>>>>>>', database_url)
+            self.connection = psycopg2.connect(database_url)
             self.connection.autocommit = True
             self.cursor = self.connection.cursor()
         except (Exception, psycopg2.DatabaseError) as error:
