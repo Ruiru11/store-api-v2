@@ -7,6 +7,12 @@ install:
   - pip install coveralls
   - pip install pytest-cov
 
+services:
+  - postgresql
+
+before_script:
+  - psq -c 'create database test_db;' -U postgres
+
 script: 
   -  pytest --cov=tests
 
