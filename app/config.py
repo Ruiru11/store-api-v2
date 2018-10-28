@@ -1,4 +1,6 @@
 import os
+import testing.postgresql
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
@@ -10,10 +12,12 @@ class DevelopmentConfig(Config):
     DEBUG = True
     DATABASE_URL = os.getenv('DATABASE_URL')
 
+
 class TestingConfig(Config):
+    Postgresql = testing.postgresql.Postgresql()
     DEBUG = True
     TESTING = True
-    DATABASE_URL = os.getenv('DATABASE_URL')
+    DATABASE_URL = Postgresql.url()
 
 
 class ProductionConfig(Config):
@@ -28,4 +32,3 @@ configuration = {
 }
 
 key = Config.SECRET_KEY
- 
