@@ -9,18 +9,14 @@ class SalesTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app(environment="testing")
         self.client = self.app.test_client
-        self.prod_data = {
+        self.sale_data = {
             "description": "cement,nails,paint",
-            "price": "500"
+            "cost": "500"
         }
 
         self.user_data = {
-            "email": "meth@mail.com",
-            "password": "shssss",
-        }
-        self.login_data = {
-            "email": "meth@mail.com",
-            "password": "shssss"
+            "email": "sales@mail.com",
+            "password": "password",
         }
         self.admin_data = {
             "email": "admin@mail.com",
@@ -49,7 +45,7 @@ class SalesTestCase(unittest.TestCase):
         token = self.auth_token
         res = self.client().post(
             "api/v2/sales",
-            data=json.dumps(self.prod_data),
+            data=json.dumps(self.sale_data),
             headers={"content-type": "application/json",
                      "Authorization": token
                      }
@@ -70,7 +66,7 @@ class SalesTestCase(unittest.TestCase):
     def test_user_signin(self):
         res = self.client().post(
             "api/v2/signin",
-            data=json.dumps(self.login_data),
+            data=json.dumps(self.user_data),
             headers={"content-type": "application/json"}
         )
         self.assertEqual(res.status_code, 200)
@@ -78,23 +74,13 @@ class SalesTestCase(unittest.TestCase):
     def get_user_token(self):
         res = self.client().post(
             "api/v2/signin",
-            data=json.dumps(self.login_data),
+            data=json.dumps(self.user_data),
             headers={"content-type": "application/json"}
         )
         response = json.loads(res.data.decode('utf-8'))['token']
+        print(">>>>>>>>>>>>>>>>>>>>>",response)
         return response
 
-    def test_normal_user_creating_sale(self):
-        token = self.get_user_token()
-        res = self.client().post(
-            "api/v2/sales",
-            data=json.dumps(self.prod_data),
-            headers={"content-type": "application/js",
-                     "Authorization": token
-                     }
-        )
-        self.assertEqual(res.status_code, 403)
-
-
+    
 if __name__ == '__main__':
     unittest.main()

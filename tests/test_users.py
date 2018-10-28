@@ -10,20 +10,9 @@ class UsersTestCase(unittest.TestCase):
         self.app = create_app(environment="testing")
         self.client = self.app.test_client
 
-        self.user_data = {
-            "email": "yyy@mail.com",
-            "password": "shssss"
-        }
-
         self.new_data = {
-            "email": "mail.com",
-            "password": "shssss",
-            "username": "ruiru"
-        }
-
-        self.signin_data = {
-            "email": "yyy@mail.com",
-            "password": "shssss"
+            "email": "new@mail.com",
+            "password": "password",
         }
         self.admin_data = {
             "email": "admin@mail.com",
@@ -32,14 +21,6 @@ class UsersTestCase(unittest.TestCase):
 
         with self.app.app_context():
             db.create_tables()
-
-    def test_create_admin(self):
-        res = self.client().post(
-            "api/v2/signup",
-            data=json.dumps(self.admin_data),
-            headers={"content-type": "application/json"}
-        )
-        self.assertEqual(res.status_code, 500)
 
     def test_admin_login(self):
         res = self.client().post(
@@ -62,20 +43,14 @@ class UsersTestCase(unittest.TestCase):
         token = self.get_admin_token()
         res = self.client().post(
             "api/v2/signup",
-            data=json.dumps(self.user_data),
+            data=json.dumps(self.new_data),
             headers={"content-type": "application/json",
                      "Authorization": token
                      }
         )
         self.assertEqual(res.status_code, 201)
 
-    def test_user_signin(self):
-        res = self.client().post(
-            "api/v2/signin",
-            data=json.dumps(self.user_data),
-            headers={"content-type": "application/json"}
-        )
-        self.assertEqual(res.status_code, 200)
+    
 
 
 if __name__ == '__main__':
