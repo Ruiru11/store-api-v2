@@ -50,8 +50,6 @@ class UsersTestCase(unittest.TestCase):
         )
         self.assertEqual(res.status_code, 201)
 
-    
-
 
 if __name__ == '__main__':
     unittest.main()
