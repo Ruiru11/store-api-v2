@@ -7,6 +7,10 @@ install:
   - pip install coveralls
   - pip install pytest-cov
 
+before_script:
+  - python settings.py init_db
+  - python settings.py create_admin
+
 script: 
   -  pytest --cov=tests
 
