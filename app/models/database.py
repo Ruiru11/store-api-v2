@@ -3,7 +3,7 @@ import os
 from app.models.tables import commands
 from app import bcrypt
 import uuid
-from app.config import config_by_name
+from app.config import configuration
 
 
 class Database_connection():
