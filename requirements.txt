@@ -1,6 +1,6 @@
 alembic==1.0.0
 aniso8601==3.0.2
-astroid==2.0.4
+astroid==1.6.5
 atomicwrites==1.2.1
 attrs==18.2.0
 autopep8==1.4
@@ -42,7 +42,7 @@ py==1.6.0
 pycodestyle==2.4.0
 pycparser==2.19
 PyJWT==1.6.4
-pylint==2.1.1
+pylint==1.9.3
 pytest==3.8.1
 pytest-cov==2.6.0
 python-dateutil==2.7.3

@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/Ruiru11/store-api-v2.svg?branch=develop)](https://travis-ci.org/Ruiru11/store-api-v2)     [![Coverage Status](https://coveralls.io/repos/github/Ruiru11/food-api/badge.svg?branch=develop)](https://coveralls.io/github/Ruiru11/food-api?branch=develop)
 # STORE-API-V2
 An api for the store application using postgresql
 

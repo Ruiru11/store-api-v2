@@ -11,19 +11,14 @@ class ProductsTestCase(unittest.TestCase):
         self.client = self.app.test_client
         self.prod_data = {
             "name": "steel pipes",
-            "category": "construction",
+            "category": "Household",
             "description": "y-16 for columns and slab",
             "price": "500"
         }
 
         self.user_data = {
-            "email": "shs@mail.com",
-            "password": "shssss",
-            "role": "attendant"
-        }
-        self.login_data = {
-            "email": "shs@mail.com",
-            "password": "shssss"
+            "email": "prod@mail.com",
+            "password": "password",
         }
         self.admin_data = {
             "email": "admin@mail.com",
@@ -83,7 +78,7 @@ class ProductsTestCase(unittest.TestCase):
     def test_user_signin(self):
         res = self.client().post(
             "api/v2/signin",
-            data=json.dumps(self.login_data),
+            data=json.dumps(self.user_data),
             headers={"content-type": "application/json"}
         )
         self.assertEqual(res.status_code, 200)
@@ -91,7 +86,7 @@ class ProductsTestCase(unittest.TestCase):
     def get_user_token(self):
         res = self.client().post(
             "api/v2/signin",
-            data=json.dumps(self.login_data),
+            data=json.dumps(self.user_data),
             headers={"content-type": "application/json"}
         )
         response = json.loads(res.data.decode('utf-8'))['token']
