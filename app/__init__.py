@@ -1,6 +1,7 @@
 from flask import Flask, redirect, make_response, jsonify
 from flask_bcrypt import Bcrypt
 from .config import configuration
+from flask_cors import CORS
 
 bcrypt = Bcrypt()
 
@@ -16,11 +17,15 @@ db = Database_connection()
 
 def create_app(environment):
     app = Flask(__name__)
+    CORS(app)
     app.config.from_object(configuration[environment])
     app.register_blueprint(don_item)
     app.register_blueprint(don_user)
     app.register_blueprint(don_sale)
-    db
+    # db
+
+    with app.context():
+        db.create_tables()
 
     @app.errorhandler(404)
     def not_found(e):
