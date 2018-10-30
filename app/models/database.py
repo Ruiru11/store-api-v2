@@ -9,12 +9,14 @@ from app.config import configuration
 class Database_connection():
     def __init__(self):
         try:
-            self.connection = psycopg2.connect(os.getenv('DATABASE_URL'))
+            environment = os.getenv('ENV')
+            database_url = configuration[environment].DATABASE_URL
+            print('>>>>>>', database_url)
+            self.connection = psycopg2.connect(database_url)
             self.connection.autocommit = True
             self.cursor = self.connection.cursor()
         except (Exception, psycopg2.DatabaseError) as error:
             print("CANNOT CONNECT TO DATABASE INVALID DATABASE URL", error)
-
 
     def create_tables(self):
         for command in commands:
