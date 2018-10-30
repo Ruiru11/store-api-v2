@@ -14,7 +14,7 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     DEBUG = True
     TESTING = True
-    DATABASE_URL = " dbname='tests' user='andela' password='andela' "
+    DATABASE_URL = " dbname='tests' user='postgres' password='postgres' "
 
 
 class ProductionConfig(Config):
