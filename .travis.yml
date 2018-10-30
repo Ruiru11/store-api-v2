@@ -11,7 +11,7 @@ service:
   - postgresql
 
 before_script:
-  - psql -c 'create database tests;' -U andela 
+  - psql -c 'create database tests;' -U postgres 
   - python settings.py init_db
   - python settings.py create_admin
 
