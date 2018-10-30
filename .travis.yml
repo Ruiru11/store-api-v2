@@ -7,7 +7,11 @@ install:
   - pip install coveralls
   - pip install pytest-cov
 
+service:
+  - postgresql
+
 before_script:
+  - pql -c 'create database tests' -U andela -P andela
   - python settings.py init_db
   - python settings.py create_admin
 
