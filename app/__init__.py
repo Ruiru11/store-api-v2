@@ -22,10 +22,9 @@ def create_app(environment):
     app.register_blueprint(don_item)
     app.register_blueprint(don_user)
     app.register_blueprint(don_sale)
-    # db
+    db
 
-    with app.context():
-        db.create_tables()
+
 
     @app.errorhandler(404)
     def not_found(e):

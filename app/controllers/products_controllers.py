@@ -92,7 +92,7 @@ class Items(object):
             """SELECT * FROM products"""
         )
         item = self.connection.cursor.fetchall()
-        return(jsonify(item))
+        return item
 
     def get_item(self, id):
         """

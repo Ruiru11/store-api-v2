@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
 from flask_restful import reqparse
 
 # local import
@@ -52,9 +52,21 @@ def create_item(res=None, user_role=None, user_id=None):
 @usr.logged_in
 def get_items(res=None, user_id=None):
     """The function is used to get all product created"""
-    return product_instance.get_items()
+    products = product_instance.get_items()
+    products_data = []
+    for i in products:
+        data = {
+            "product_id": i[4],
+            "product_name":i[0],
+            "description":i[1],
+            "price":i[2],
+            "category_name":i[3]
+        }
+        products_data.append(data)
 
-
+    return (jsonify({
+        "products":products_data
+    }))
 @don_item.route("/products/<id>", methods=["GET"])
 @usr.logged_in
 def get_item(id, res=None, user_id=None):
