@@ -71,7 +71,24 @@ def get_items(res=None, user_id=None):
 @usr.logged_in
 def get_item(id, res=None, user_id=None):
     """The function returns a specific product using its unique id"""
-    return product_instance.get_item(id)
+    product = product_instance.get_item(id)
+    if product:
+        data = {
+                "product_id": product[4],
+                "product_name":product[0],
+                "description":product[1],
+                "price":product[2],
+                "category_name":product[3]
+            }
+        return  jsonify({
+            "product":data
+        })
+    else:
+        return jsonify(
+            {
+                "message":"Product not found"
+            }
+        ), 404
 
 
 @don_item.route('/products/<id>', methods=['DELETE'])

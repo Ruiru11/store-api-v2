@@ -110,17 +110,11 @@ class Items(object):
             "SELECT * FROM  products WHERE product_id=%s", [id]
         )
         res = self.connection.cursor.fetchone()
-        if not res:
-            response_object = {
-                "message": "No product with that id exists",
-                "status": "Fail"
-            }
-            return(make_response(jsonify(response_object)), 404)
-        else:
-            self.connection.cursor.execute(
-                "SELECT * FROM  products WHERE product_id=%s", [id])
-            response = self.connection.cursor.fetchone()
-            return(make_response(jsonify(response)))
+        return res
+        # self.connection.cursor.execute(
+        #     "SELECT * FROM  products WHERE product_id=%s", [id])
+        # response = self.connection.cursor.fetchone()
+        # return(make_response(jsonify(response)))
 
     def delete_product(self, id):
         """The function to delete a product"""
