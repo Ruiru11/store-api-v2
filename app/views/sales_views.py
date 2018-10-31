@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
 from flask_restful import reqparse
 
 # local import
@@ -42,7 +42,20 @@ def create_sale(res=None, user_id=None):
 @usr.check_admin
 def get_sales(res=None, user_role=None, user_id=None):
     """The function is used to get all sales created"""
-    return sale_insatnce.get_sales()
+    sales = sale_insatnce.get_sales()
+    sales_data = []
+    for i in sales:
+        data = {
+            "cost": i[2],
+            "sale_id":i[0],
+            "user_id":i[1],
+            "description":i[3]
+        }
+        sales_data.append(data)
+
+    return (jsonify({
+        "sales":sales_data
+    }))
 
 
 @don_sale.route("/sales/<id>", methods=["GET"])
@@ -50,7 +63,23 @@ def get_sales(res=None, user_role=None, user_id=None):
 @usr.check_admin
 def get_sale(id, res=None, user_role=None, user_id=None):
     """The function gets a single order using its id"""
-    return sale_insatnce.get_sale(id)
+    sale = sale_insatnce.get_sale(id)
+    if sale:
+        data = {
+            "cost": sale[2],
+            "sale_id":sale[0],
+            "user_id":sale[1],
+            "description":sale[3]
+            }
+        return  jsonify({
+            "sales":data
+        })
+    else:
+        return jsonify(
+            {
+                "message":"sale not found"
+            }
+        ), 404
 
 
 @don_sale.route("/user-sales/<id>", methods=["GET"])
