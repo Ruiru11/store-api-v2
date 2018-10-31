@@ -23,9 +23,7 @@ def create_app(environment):
     app.register_blueprint(don_user)
     app.register_blueprint(don_sale)
     db
-
-
-
+    
     @app.errorhandler(404)
     def not_found(e):
         response_object = {
