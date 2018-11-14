@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
 from flask_restful import reqparse
 
 # local imports
@@ -16,7 +16,7 @@ user_instance = Users()
 @don_user.route("/signup", methods=["POST"])
 @usr.logged_in
 @usr.check_admin
-def create_user(res=None, user_role=None, user_id=None):
+def create_user(res=None, user_role=None, user_id=None, user_email=None):
     """
         This function creates a new user. 
     Parameters:
@@ -62,12 +62,31 @@ def signin_user():
 @don_user.route('/users', methods=['GET'])
 @usr.logged_in
 @usr.check_admin
-def get_user(res=None, user_id=None, user_role=None):
-    return user_instance.get_user()
+def get_user(res=None, user_id=None, user_role=None, user_email=None):
+    users = user_instance.get_user()
+    print("users>>>>", users)
+    users_data = []
+    for user in users:
+        data = {
+            "user_id": user[0],
+            "user_email": user[1],
+            "user_role": user[3]
+        }
+        users_data.append(data)
+    return (jsonify({
+        "users": users_data
+    }))
 
 
 @don_user.route('/user/<id>', methods=['PUT'])
 @usr.logged_in
 @usr.check_admin
-def update_user(id, res=None, user_id=None, user_role=None):
+def update_user(id, res=None, user_id=None, user_role=None, user_email=None):
     return user_instance.update_user(id)
+
+
+@don_user.route('/user-demote/<id>', methods=['PUT'])
+@usr.logged_in
+@usr.check_admin
+def demote_user(id, res=None, user_id=None, user_role=None, user_email=None):
+    return user_instance.demote_user(id)

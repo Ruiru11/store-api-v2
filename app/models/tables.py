@@ -14,9 +14,11 @@ h3 = (
 CREATE TABLE IF NOT EXISTS SALES(
 sale_id VARCHAR PRIMARY KEY NOT NULL,
 user_id VARCHAR ,
+user_email VARCHAR ,
 cost INTEGER NOT NULL,
 description VARCHAR NOT NULL,
-FOREIGN KEY(user_id) REFERENCES users(id)
+FOREIGN KEY(user_id) REFERENCES users(id),
+FOREIGN KEY(user_email) REFERENCES users(email)
 
 
 )
