@@ -23,10 +23,24 @@ class Sales(object):
 
     def validate_description(self, description):
         """The function to validate description"""
-        if len(description) == 0:
-            return False
-        else:
-            return True
+
+        description = description.strip().split(",")
+        print('description', description)
+        response = None
+        for i in description:
+            print(i)
+            self.connection.cursor.execute(
+                """ SELECT * FROM products WHERE name=%s""", [i]
+            )
+            res = self.connection.cursor.fetchone()
+            if not res:
+                response = False
+                break
+            else:
+                response = True
+                continue
+        print('response', response)
+        return response
 
     def create_sale(self, data):
         """
@@ -44,10 +58,11 @@ class Sales(object):
         if cost and description is True:
             try:
                 sale_id = str(uuid.uuid4())
-                self.connection.cursor.execute("""INSERT INTO sales(sale_id, user_id, cost, description) 
-                VALUES (%s, %s, %s, %s);""",
+                self.connection.cursor.execute("""INSERT INTO sales(sale_id, user_id, user_email, cost, description) 
+                VALUES (%s, %s,  %s, %s, %s);""",
                                                (sale_id,
                                                 data['user_id'],
+                                                data['user_email'],
                                                 data['cost'],
                                                 data['description']))
                 print("Inserting DATA into sales")
@@ -73,7 +88,7 @@ class Sales(object):
         elif description is not True:
             response_object = {
                 "status": "fail",
-                "message": "description cannot be empty"
+                "message": "one of the items you are trying to make a sale of is not in store please check again"
             }
             return(make_response(jsonify(response_object)), 409)
 

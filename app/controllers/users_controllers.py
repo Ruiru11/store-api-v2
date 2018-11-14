@@ -90,7 +90,7 @@ class Users(object):
         """The function to ge all users """
         self.connection.cursor.execute("""SELECT * FROM users""")
         users = self.connection.cursor.fetchall()
-        return(make_response(jsonify(users)))
+        return users
 
     def signin_user(self, data):
         """
@@ -166,7 +166,8 @@ class Users(object):
                     }
                     new_kwargs = {
                         'res': responseObject,
-                        'user_id': user[0]
+                        'user_id': user[0],
+                        'user_email': user[1]
                     }
                     kwargs.update(new_kwargs)
                 else:
@@ -227,5 +228,16 @@ class Users(object):
         response_object = {
             "satus": "pass",
             "message": "User elevated to admin"
+        }
+        return(make_response(jsonify(response_object)))
+
+    def demote_user(self, id):
+        """ The function to demote a user """
+        self.connection.cursor.execute(
+            "UPDATE users SET role='attendant' WHERE id=%s",
+            [id])
+        response_object = {
+            "status": "pass",
+            "message": "User demoted"
         }
         return(make_response(jsonify(response_object)))

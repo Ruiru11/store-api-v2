@@ -10,7 +10,7 @@ class SalesTestCase(unittest.TestCase):
         self.app = create_app(environment="testing")
         self.client = self.app.test_client
         self.sale_data = {
-            "description": "cement,nails,paint",
+            "description":"steel",
             "cost": "500"
         }
 
@@ -50,7 +50,7 @@ class SalesTestCase(unittest.TestCase):
                      "Authorization": token
                      }
         )
-        self.assertEqual(res.status_code, 201)
+        self.assertEqual(res.status_code, 409)
 
     def test_create_user(self):
         token = self.auth_token

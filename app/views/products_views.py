@@ -16,7 +16,7 @@ product_instance = Items()
 @don_item.route("/products", methods=["POST"])
 @usr.logged_in
 @usr.check_admin
-def create_item(res=None, user_role=None, user_id=None):
+def create_item(res=None, user_role=None, user_id=None, user_email=None):
     """
         The function handles all arguments required for
         creating a new product.
@@ -50,43 +50,45 @@ def create_item(res=None, user_role=None, user_id=None):
 
 @don_item.route("/products", methods=["GET"])
 @usr.logged_in
-def get_items(res=None, user_id=None):
+def get_items(res=None, user_id=None, user_email=None):
     """The function is used to get all product created"""
     products = product_instance.get_items()
     products_data = []
     for i in products:
         data = {
             "product_id": i[4],
-            "product_name":i[0],
-            "description":i[1],
-            "price":i[2],
-            "category_name":i[3]
+            "product_name": i[0],
+            "description": i[1],
+            "price": i[2],
+            "category_name": i[3]
         }
         products_data.append(data)
 
     return (jsonify({
-        "products":products_data
+        "products": products_data
     }))
+
+
 @don_item.route("/products/<id>", methods=["GET"])
 @usr.logged_in
-def get_item(id, res=None, user_id=None):
+def get_item(id, res=None, user_id=None, user_email=None):
     """The function returns a specific product using its unique id"""
     product = product_instance.get_item(id)
     if product:
         data = {
-                "product_id": product[4],
-                "product_name":product[0],
-                "description":product[1],
-                "price":product[2],
-                "category_name":product[3]
-            }
-        return  jsonify({
-            "product":data
+            "product_id": product[4],
+            "product_name": product[0],
+            "description": product[1],
+            "price": product[2],
+            "category_name": product[3]
+        }
+        return jsonify({
+            "product": data
         })
     else:
         return jsonify(
             {
-                "message":"Product not found"
+                "message": "Product not found"
             }
         ), 404
 
@@ -94,12 +96,12 @@ def get_item(id, res=None, user_id=None):
 @don_item.route('/products/<id>', methods=['DELETE'])
 @usr.logged_in
 @usr.check_admin
-def delete_product(id, res=None, user_id=None, user_role=None):
+def delete_product(id, res=None, user_id=None, user_role=None,user_email=None):
     return product_instance.delete_product(id)
 
 
 @don_item.route('/products/<id>', methods=['PUT'])
 @usr.logged_in
 @usr.check_admin
-def update_product(id, res=None, user_id=None, user_role=None):
+def update_product(id, res=None, user_id=None, user_role=None, user_email=None):
     return product_instance.update_product(id)
