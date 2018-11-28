@@ -149,4 +149,4 @@ class Sales(object):
             self.connection.cursor.execute(
                 " SELECT * FROM sales WHERE user_id=%s ", [id])
             response = self.connection.cursor.fetchall()
-            return(make_response(jsonify(response)))
+            return response
