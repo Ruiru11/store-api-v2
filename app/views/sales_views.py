@@ -86,7 +86,20 @@ def get_sale(id, res=None, user_role=None, user_id=None, user_email=None):
 
 @don_sale.route("/user-sales/<id>", methods=["GET"])
 @usr.logged_in
-@usr.check_admin
 def get_user_sales(id, res=None, user_role=None, user_id=None, user_email=None):
     """The function gets a single order using its id"""
-    return sale_insatnce.get_user_sales(id)
+    sales = sale_insatnce.get_user_sales(id)
+    sales_data = []
+    for i in sales:
+        data = {
+            "email": i[2],
+            "sale_id": i[0],
+            "user_id": i[1],
+            "cost": i[3],
+            "description": i[4]
+        }
+        sales_data.append(data)
+
+    return (jsonify({
+        "sales": sales_data
+    }))
