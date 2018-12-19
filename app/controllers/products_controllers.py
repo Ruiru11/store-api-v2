@@ -21,7 +21,7 @@ class Items(object):
 
     def validate_category(self, category):
         """The function to validate category"""
-        if category != "Household":
+        if len(category) == 0:
             return False
         else:
             return True
@@ -71,7 +71,7 @@ class Items(object):
         elif category is not True:
             response_object = {
                 "status": "fail",
-                "message": "By default category should be Household"
+                "message": "Category cannot be empty"
             }
             return(make_response(jsonify(response_object)), 409)
         elif name is not True:
@@ -137,7 +137,7 @@ class Items(object):
             }
             return(make_response(jsonify(response_object)))
 
-    def update_product(self, id):
+    def update_product(self, id, data):
         """The function to modify a product"""
         self.connection.cursor.execute(
             "SELECT * FROM  products WHERE product_id=%s", [id]
@@ -150,11 +150,19 @@ class Items(object):
             }
             return(make_response(jsonify(response_object)), 404)
         else:
+            
             self.connection.cursor.execute(
-                "UPDATE products SET category='construction' WHERE product_id=%s",
-                [id])
+                "UPDATE products SET name=%s,price=%s,description=%s,category=%s WHERE product_id=%s",
+                (data["name"],
+                data["price"],
+                data["description"],
+                data["category"],
+                id),
+                )
             response_object = {
                 "satus": "pass",
-                "message": "status update complete"
+                "message": "Changes applied successfully"
             }
             return(make_response(jsonify(response_object)))
+
+    

@@ -187,7 +187,7 @@ class Users(object):
                     'status': 'Fail',
                     'message': 'Invalid token type or no token provided; please check your token or if none provided provide one '
                 }
-                return make_response(jsonify(responseObject), 500)
+                return make_response(jsonify(responseObject), 400)
             return func(*args, **kwargs)
         return decorator
 

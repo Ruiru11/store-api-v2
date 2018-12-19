@@ -88,7 +88,7 @@ class Sales(object):
         elif description is not True:
             response_object = {
                 "status": "fail",
-                "message": "one of the items you are trying to make a sale of is not in store please check again"
+                "message": "one or several of the items you are trying to make a sale of is not in store please check again"
             }
             return(make_response(jsonify(response_object)), 409)
 

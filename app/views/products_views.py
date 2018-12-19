@@ -104,4 +104,14 @@ def delete_product(id, res=None, user_id=None, user_role=None,user_email=None):
 @usr.logged_in
 @usr.check_admin
 def update_product(id, res=None, user_id=None, user_role=None, user_email=None):
-    return product_instance.update_product(id)
+    parser = reqparse.RequestParser()
+    parser.add_argument("name", type=str, required=True,
+                        help="name required", location="json")
+    parser.add_argument("category", type=str, required=True,
+                        help="name required", location="json")
+    parser.add_argument("price", type=int, required=True,
+                        help="name required", location="json")
+    parser.add_argument("description", type=str, required=True,
+                        help="description required", location="json")
+    data = parser.parse_args()
+    return product_instance.update_product(id,data)
